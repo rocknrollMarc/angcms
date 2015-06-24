@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(requre('express-session')({
+app.use(require('express-session')({
 	secret: 'keyboard cat',
 	resave: false,
 	saveUninitialized: false
