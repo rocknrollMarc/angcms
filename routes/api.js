@@ -40,4 +40,53 @@ router.post('/pages/add', function(request, response) {
 	});
 });
 
+router.post('/pages/update', function(request, response) {
+	var id = request.body._id;
+
+	Page.update({
+		_id: id
+	}, {
+		$set: {
+			title: request.body.title,
+			url: request.body.url,
+			content: request.body.content,
+			menuIndex: request.body.menuIndex,
+			date: new Date(Date.now())
+		}
+	}).exec();
+	response.send("Page updated");
+});
+
+router.get('/pages/delete/:id', function(request, response) {
+	var id = request.params.id;
+	Page.remove({
+		_id: id
+	}, function(err) {
+		return console.log(err);
+	});
+	return response.send('Page id- ' + id + ' has been deleted');
+});
+
+router.get('/pages/admin-details/:id', function(request, response) {
+	var id = request.params.id;
+	Page.findOne({
+		_id: id
+	}, function(err, page) {
+		if (err)
+			return console.log(err);
+		return response.send(page);
+	});
+});
+
+router.get('/pages/details/:url', function(request, response) {
+	var url = request.params.url;
+	Page.findOne({
+		url: url
+	}, function(err, page) {
+		if (err)
+			return console.log(err);
+		return response.send(page);
+	});
+});
+
 module.exports = router;
